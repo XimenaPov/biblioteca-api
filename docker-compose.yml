@@ -15,7 +15,7 @@ services:
       - biblioteca-network
 
   biblioteca-api:
-    build: ../../../../Proyecto/Ultima actualizacion/biblioteca-api
+    build: .
     container_name: biblioteca-api
     ports:
       - "8080:8080"
