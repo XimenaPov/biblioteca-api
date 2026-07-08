@@ -1,6 +1,9 @@
 package biblioteca_api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,15 +19,16 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank(message = "El título es obligatorio")
+    @Size(min = 1, max = 200, message = "El título debe tener entre 1 y 200 caracteres")
     private String titulo;
 
-    @Column(nullable = false)
+    @NotBlank(message = "El autor es obligatorio")
     private String autor;
 
-    @Column(unique = true, nullable = false)
+    @NotBlank(message = "El ISBN es obligatorio")
+    @Pattern(regexp = "^[0-9-]{10,17}$", message = "ISBN inválido")
     private String isbn;
 
-    @Column(nullable = false)
     private boolean disponible = true;
 }

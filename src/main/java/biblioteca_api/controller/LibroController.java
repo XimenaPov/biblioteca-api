@@ -1,7 +1,10 @@
 package biblioteca_api.controller;
 
-import com.ximena.biblioteca_api.model.Libro;
-import com.ximena.biblioteca_api.service.LibroService;
+
+import biblioteca_api.dto.LibroRequestDTO;
+import biblioteca_api.dto.LibroResponseDTO;
+import biblioteca_api.service.LibroService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,27 +21,28 @@ public class LibroController {
 
     // GET /api/libros → obtener todos
     @GetMapping
-    public List<Libro> obtenerTodos() {
+    public List<LibroResponseDTO> obtenerTodos() {
         return libroService.obtenerTodos();
     }
 
     // GET /api/libros/1 → obtener por id
     @GetMapping("/{id}")
-    public Libro obtenerPorId(@PathVariable Long id) {
+    public LibroResponseDTO obtenerPorId(@PathVariable Long id) {
         return libroService.obtenerPorId(id);
     }
 
     // POST /api/libros → crear
     @PostMapping
-    public ResponseEntity<Libro> crear(@RequestBody Libro libro) {
-        Libro nuevo = libroService.crear(libro);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+    public ResponseEntity<LibroResponseDTO> crear(@Valid @RequestBody LibroRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(libroService.crear(dto));
     }
 
     // PUT /api/libros/1 → actualizar
     @PutMapping("/{id}")
-    public Libro actualizar(@PathVariable Long id, @RequestBody Libro libro) {
-        return libroService.actualizar(id, libro);
+    public LibroResponseDTO actualizar(@PathVariable Long id,
+                                       @Valid @RequestBody LibroRequestDTO dto) {
+        return libroService.actualizar(id, dto);
     }
 
     // DELETE /api/libros/1 → eliminar
@@ -50,7 +54,7 @@ public class LibroController {
 
     // GET /api/libros/disponibles
     @GetMapping("/disponibles")
-    public List<Libro> disponibles() {
+    public List<LibroResponseDTO> disponibles() {
         return libroService.obtenerDisponibles();
     }
 }

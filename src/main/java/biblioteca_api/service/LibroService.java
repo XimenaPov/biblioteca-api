@@ -1,7 +1,10 @@
 package biblioteca_api.service;
 
-import com.ximena.biblioteca_api.model.Libro;
-import com.ximena.biblioteca_api.repository.LibroRepository;
+import biblioteca_api.dto.LibroRequestDTO;
+import biblioteca_api.dto.LibroResponseDTO;
+import biblioteca_api.exception.RecursoNoEncontradoException;
+import biblioteca_api.model.Libro;
+import biblioteca_api.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,39 +17,94 @@ public class LibroService {
     private LibroRepository libroRepository;
 
     // Obtener todos los libros
-    public List<Libro> obtenerTodos() {
-        return libroRepository.findAll();
+    public List<LibroResponseDTO> obtenerTodos() {
+        return libroRepository.findAll()
+                .stream()
+                .map(libro -> {
+                    LibroResponseDTO response = new LibroResponseDTO();
+                    response.setId(libro.getId());
+                    response.setTitulo(libro.getTitulo());
+                    response.setAutor(libro.getAutor());
+                    response.setIsbn(libro.getIsbn());
+                    response.setDisponible(libro.isDisponible());
+                    return response;
+                })
+                .toList();
     }
 
     // Obtener por ID
-    public Libro obtenerPorId(Long id) {
-        return libroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado con id: " + id));
+    public LibroResponseDTO obtenerPorId(Long id) {
+        Libro libro = buscarLibroOLanzarExcepcion(id);
+        LibroResponseDTO response = new LibroResponseDTO();
+        response.setId(libro.getId());
+        response.setTitulo(libro.getTitulo());
+        response.setAutor(libro.getAutor());
+        response.setIsbn(libro.getIsbn());
+        response.setDisponible(libro.isDisponible());
+        return response;
     }
 
     // Crear libro
-    public Libro crear(Libro libro) {
-        return libroRepository.save(libro);
+    public LibroResponseDTO crear(LibroRequestDTO dto) {
+        Libro libro = new Libro();
+        libro.setTitulo(dto.getTitulo());
+        libro.setAutor(dto.getAutor());
+        libro.setIsbn(dto.getIsbn());
+        libro.setDisponible(true);
+
+        Libro guardado = libroRepository.save(libro);
+
+        LibroResponseDTO response = new LibroResponseDTO();
+        response.setId(guardado.getId());
+        response.setTitulo(guardado.getTitulo());
+        response.setAutor(guardado.getAutor());
+        response.setIsbn(guardado.getIsbn());
+        response.setDisponible(guardado.isDisponible());
+        return response;
+    }
+
+    // Método privado interno — solo para uso dentro del Service
+    private Libro buscarLibroOLanzarExcepcion(Long id) {
+        return libroRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "Libro no encontrado con id: " + id));
     }
 
     // Actualizar libro
-    public Libro actualizar(Long id, Libro libroActualizado) {
-        Libro libro = obtenerPorId(id);
-        libro.setTitulo(libroActualizado.getTitulo());
-        libro.setAutor(libroActualizado.getAutor());
-        libro.setIsbn(libroActualizado.getIsbn());
-        libro.setDisponible(libroActualizado.isDisponible());
-        return libroRepository.save(libro);
+    public LibroResponseDTO actualizar(Long id, LibroRequestDTO dto) {
+        Libro libro = buscarLibroOLanzarExcepcion(id);
+        libro.setTitulo(dto.getTitulo());
+        libro.setAutor(dto.getAutor());
+        libro.setIsbn(dto.getIsbn());
+        Libro guardado = libroRepository.save(libro);
+        LibroResponseDTO response = new LibroResponseDTO();
+        response.setId(guardado.getId());
+        response.setTitulo(guardado.getTitulo());
+        response.setAutor(guardado.getAutor());
+        response.setIsbn(guardado.getIsbn());
+        response.setDisponible(guardado.isDisponible());
+        return response;
     }
 
     // Eliminar libro
     public void eliminar(Long id) {
-        obtenerPorId(id); // verifica que existe
+        buscarLibroOLanzarExcepcion(id);
         libroRepository.deleteById(id);
     }
 
     // Listar disponibles
-    public List<Libro> obtenerDisponibles() {
-        return libroRepository.findByDisponibleTrue();
+    public List<LibroResponseDTO> obtenerDisponibles() {
+        return libroRepository.findByDisponibleTrue()
+                .stream()
+                .map(libro -> {
+                    LibroResponseDTO response = new LibroResponseDTO();
+                    response.setId(libro.getId());
+                    response.setTitulo(libro.getTitulo());
+                    response.setAutor(libro.getAutor());
+                    response.setIsbn(libro.getIsbn());
+                    response.setDisponible(libro.isDisponible());
+                    return response;
+                })
+                .toList();
     }
 }
