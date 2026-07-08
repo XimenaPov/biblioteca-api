@@ -1,4 +1,4 @@
-package biblioteca_api.model;
+package com.ximena.biblioteca_api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

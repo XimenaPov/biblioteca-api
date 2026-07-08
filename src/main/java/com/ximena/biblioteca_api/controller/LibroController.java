@@ -1,9 +1,9 @@
-package biblioteca_api.controller;
+package com.ximena.biblioteca_api.controller;
 
 
-import biblioteca_api.dto.LibroRequestDTO;
-import biblioteca_api.dto.LibroResponseDTO;
-import biblioteca_api.service.LibroService;
+import com.ximena.biblioteca_api.dto.LibroRequestDTO;
+import com.ximena.biblioteca_api.dto.LibroResponseDTO;
+import com.ximena.biblioteca_api.service.LibroService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

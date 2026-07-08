@@ -1,4 +1,4 @@
-package biblioteca_api.dto;
+package com.ximena.biblioteca_api.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

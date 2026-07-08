@@ -1,4 +1,4 @@
-package biblioteca_api.exception;
+package com.ximena.biblioteca_api.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

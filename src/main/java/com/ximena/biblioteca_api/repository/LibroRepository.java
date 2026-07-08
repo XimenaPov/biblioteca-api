@@ -1,6 +1,6 @@
-package biblioteca_api.repository;
+package com.ximena.biblioteca_api.repository;
 
-import biblioteca_api.model.Libro;
+import com.ximena.biblioteca_api.model.Libro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

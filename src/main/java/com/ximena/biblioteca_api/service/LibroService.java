@@ -1,10 +1,10 @@
-package biblioteca_api.service;
+package com.ximena.biblioteca_api.service;
 
-import biblioteca_api.dto.LibroRequestDTO;
-import biblioteca_api.dto.LibroResponseDTO;
-import biblioteca_api.exception.RecursoNoEncontradoException;
-import biblioteca_api.model.Libro;
-import biblioteca_api.repository.LibroRepository;
+import com.ximena.biblioteca_api.dto.LibroRequestDTO;
+import com.ximena.biblioteca_api.dto.LibroResponseDTO;
+import com.ximena.biblioteca_api.exception.RecursoNoEncontradoException;
+import com.ximena.biblioteca_api.model.Libro;
+import com.ximena.biblioteca_api.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
